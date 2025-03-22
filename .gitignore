@@ -1,1 +1,65 @@
-**/node_modules
+# Ignore Node.js dependencies
+**/node_modules/
+**/package-lock.json
+**/yarn.lock
+**/pnpm-lock.yaml
+
+# Ignore build artifacts
+**/dist/
+**/build/
+**/.turbo/
+**/.next/
+**/.expo/
+**/.vercel/
+**/.docusaurus/
+
+# Ignore environment variables & secrets
+**/.env*
+**/config/*.env
+
+# Ignore logs
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+**/pnpm-debug.log*
+**/lerna-debug.log*
+**/.pnpm-debug.log*
+**/debug.log*
+
+# Ignore editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-workspace
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore TypeScript build files
+**/*.tsbuildinfo
+
+# Ignore Expo and React Native artifacts
+**/.expo/
+**/.expo-shared/
+**/android/app/build/
+**/ios/Pods/
+
+# Ignore TurboRepo cache (if used)
+**/.turbo/
+
+# Ignore Firebase cache (if applicable)
+firebase-debug.log
+.firebaserc
+
+# Ignore Docker-related files (if used)
+**/docker-compose.override.yml
+
+# Ignore Playwright & Cypress test artifacts
+**/playwright-report/
+**/cypress/screenshots/
+**/cypress/videos/
+
+# Ignore GitHub workflows cache
+**/.github/workflows/*.log
