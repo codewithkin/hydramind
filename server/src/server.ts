@@ -82,9 +82,7 @@ io.on("connection", (socket) => {
 //MongoDB connection
 (async function connectDB() {
   try {
-    await mongoose.connect(
-      "mongodb+srv://stephenadebanjo86:re9fFyuhM3I1W0Hd@cluster0.31n4t.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-    );
+    await mongoose.connect(process.env.DB_URL!);
     console.log("MongoDB Connected succesfully");
   } catch (error) {
     console.log("MongoDB Connection Error:", error);
