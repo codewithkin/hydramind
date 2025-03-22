@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/server.js",
-    "dev": "nodemon --ext ts --exec ts-node src/server.ts",
+    "dev": "nodemon --exec node --loader ts-node/esm src/server.ts",
     "format": "npx prettier --write ."
   },
   "keywords": [],

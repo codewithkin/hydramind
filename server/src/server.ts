@@ -7,6 +7,7 @@ import aiRoutes from "./routes/ai/hydrationPlan.js";
 import notificationRoutes from "./routes/notifications/index.js";
 import { Server } from "socket.io";
 import dotenv from "dotenv";
+import mongoose from "mongoose";
 
 dotenv.config();
 
@@ -77,6 +78,19 @@ io.on("connection", (socket) => {
     console.log(`User disconnected: ${socket.id}`);
   });
 });
+
+//MongoDB connection
+(async function connectDB() {
+  try {
+    await mongoose.connect(
+      "mongodb+srv://stephenadebanjo86:re9fFyuhM3I1W0Hd@cluster0.31n4t.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+    );
+    console.log("MongoDB Connected succesfully");
+  } catch (error) {
+    console.log("MongoDB Connection Error:", error);
+    process.exit(1);
+  }
+})();
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
