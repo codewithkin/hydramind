@@ -6,9 +6,7 @@ export async function analyzeHydration(req: Request, res: Response) {
     const { date, amount, time } = req.body;
 
     if (!date || !amount || !time) {
-      console.log(
-        "One of the body params { date, amount, time } are missing",
-      );
+      console.log("One of the body params { date, amount, time } are missing");
     }
 
     // Return dummy response

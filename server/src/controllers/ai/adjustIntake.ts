@@ -6,9 +6,7 @@ export async function adjustIntake(req: Request, res: Response) {
     const { temperature } = req.body;
 
     if (!temperature) {
-      console.log(
-        "Temperature missing",
-      );
+      console.log("Temperature missing");
     }
 
     // Return dummy response
