@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import axios from "axios";
 
 import { config } from "dotenv";
+import { getHydrationPlan } from "../../lib/functions/ai/reusable/getHydrationPlan.js";
 
 // Allow parsing of env variables (useful for test cases where code doesn't run the config() call in the root server.ts file because we run this function directly)
 config();
@@ -41,15 +42,21 @@ export async function hydrationPlan(req: Request, res: Response) {
 
     console.log({
       "Temperature: ": temp,
-      "Humidity: ": humidity
-    })
+      "Humidity: ": humidity,
+    });
 
     // Pass these values to the AI
-
+    const hydrationPlan = await getHydrationPlan({
+      temp,
+      humidity,
+      activityLevel,
+      age,
+      weight,
+    });
 
     // Return dummy response
     res.status(200).json({
-      message: "Yes, you made a request to the hydration plan endpoint",
+      hydrationPlan,
     });
   } catch (e) {
     console.log("An error occured while getting hydration plan ", e);
