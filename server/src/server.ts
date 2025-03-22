@@ -5,6 +5,7 @@ import dataRoutes from "./routes/data/index.js";
 import hydrationRoutes from "./routes/hydration/route.js";
 import aiRoutes from "./routes/ai/index.js";
 import notificationRoutes from "./routes/notifications/index.js";
+import authRoute from "./routes/auth/authRoute";
 import { Server } from "socket.io";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
@@ -39,6 +40,9 @@ app.use("/api/ai", aiRoutes);
 // Notifications and reminders
 app.use("/api/notifications", notificationRoutes);
 
+// Auth route
+app.use("/api/auth", authRoute);
+
 // Catch-all route
 app.use("*", (_, res) => {
   // Return a random response
@@ -46,6 +50,7 @@ app.use("*", (_, res) => {
     message: "The route you were looking for could not be found",
   });
 });
+
 // Store user hydration progress in-memory (Replace with DB in production)
 let hydrationData: Record<string, number> = {};
 
