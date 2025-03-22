@@ -4,6 +4,7 @@ import cors from 'cors';
 import morgan from "morgan";
 import dataRoutes from './routes/data/index.js';
 import hydrationRoutes from './routes/hydration/route.js';
+import aiRoutes from './routes/ai/hydrationPlan.js';
 
 dotenv.config();
 
