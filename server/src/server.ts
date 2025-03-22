@@ -5,6 +5,7 @@ import morgan from "morgan";
 import dataRoutes from './routes/data/index.js';
 import hydrationRoutes from './routes/hydration/route.js';
 import aiRoutes from './routes/ai/hydrationPlan.js';
+import notificationRoutes from './routes/notifications/index.js';
 
 dotenv.config();
 
@@ -24,6 +25,9 @@ app.use("/api/hydration", hydrationRoutes)
 // AI routes
 app.use("/api/ai", aiRoutes)
 
+// Notifications and reminders
+app.use("/api/ai", notificationRoutes)
+
 // Catch-all route
 app.use("*", (_, res) => {
   // Return a random response
@@ -31,6 +35,20 @@ app.use("*", (_, res) => {
     message: "The route you were looking for could not be found",
   })
 })
+
+io.on("connection", (socket) => {
+  console.log("User connected:", socket.id);
+
+  socket.on("hydrate", (data) => {
+    console.log("User logged water:", data);
+    io.emit("updateProgress", { userId: data.userId, newProgress: data.amount });
+  });
+
+  socket.on("disconnect", () => {
+    console.log("User disconnected");
+  });
+});
+
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
