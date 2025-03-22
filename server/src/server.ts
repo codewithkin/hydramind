@@ -37,7 +37,7 @@ app.use("/api/hydration", hydrationRoutes);
 app.use("/api/ai", aiRoutes);
 
 // Notifications and reminders
-app.use("/api/ai", notificationRoutes);
+app.use("/api/notifications", notificationRoutes);
 
 // Catch-all route
 app.use("*", (_, res) => {
