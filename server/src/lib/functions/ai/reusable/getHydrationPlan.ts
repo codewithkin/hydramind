@@ -9,9 +9,9 @@ export async function getHydrationPlan({
 }: {
   temp: number;
   humidity: number;
-  activityLevel: string;
-  age: number;
-  weight: number | string;
+  activityLevel: string | null | undefined;
+  age: number | null | undefined;
+  weight:  number | null | undefined;
 }) {
   try {
     const systemPrompt = `
