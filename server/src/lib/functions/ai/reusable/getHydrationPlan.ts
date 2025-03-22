@@ -36,7 +36,7 @@ export async function getHydrationPlan({
       "explanation": "<ONE-SENTENCE summary>",
       "hydration_tips": ["<SHORT TIP 1>", "<SHORT TIP 2>"]
     }
-    KEEP RESPONSES SHORT.
+    KEEP RESPONSES SHORT. Do not return the JSON as a string. Return it as a properly formatted JSON object.
     `;
 
     // Make a request to the ai
