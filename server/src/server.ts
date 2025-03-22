@@ -1,10 +1,10 @@
-import express from 'express';
-import cors from 'cors';
+import express from "express";
+import cors from "cors";
 import morgan from "morgan";
-import dataRoutes from './routes/data/index.js';
-import hydrationRoutes from './routes/hydration/route.js';
-import aiRoutes from './routes/ai/hydrationPlan.js';
-import notificationRoutes from './routes/notifications/index.js';
+import dataRoutes from "./routes/data/index.js";
+import hydrationRoutes from "./routes/hydration/route.js";
+import aiRoutes from "./routes/ai/hydrationPlan.js";
+import notificationRoutes from "./routes/notifications/index.js";
 import { Server } from "socket.io";
 import dotenv from "dotenv";
 
@@ -13,8 +13,8 @@ dotenv.config();
 const io = new Server({
   cors: {
     origin: "*", // Allow frontend connections
-    methods: ["GET", "POST"]
-  }
+    methods: ["GET", "POST"],
+  },
 });
 
 dotenv.config();
@@ -30,21 +30,21 @@ const PORT = process.env.PORT || 8080;
 app.use("/api/data", dataRoutes);
 
 // Hydration routes
-app.use("/api/hydration", hydrationRoutes)
+app.use("/api/hydration", hydrationRoutes);
 
 // AI routes
-app.use("/api/ai", aiRoutes)
+app.use("/api/ai", aiRoutes);
 
 // Notifications and reminders
-app.use("/api/ai", notificationRoutes)
+app.use("/api/ai", notificationRoutes);
 
 // Catch-all route
 app.use("*", (_, res) => {
   // Return a random response
   res.status(404).json({
     message: "The route you were looking for could not be found",
-  })
-})
+  });
+});
 // Store user hydration progress in-memory (Replace with DB in production)
 let hydrationData: Record<string, number> = {};
 

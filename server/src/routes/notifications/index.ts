@@ -4,6 +4,6 @@ import { sendNotification } from "../../controllers/notifications/sendNotificati
 const notificationRoutes = Router();
 
 // Send notification
-notificationRoutes.post("/send", sendNotification)
+notificationRoutes.post("/send", sendNotification);
 
 export default notificationRoutes;
