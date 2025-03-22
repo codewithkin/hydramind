@@ -4,6 +4,7 @@ import { hydrationPlan } from "../../controllers/ai/hydrationPlan.js";
 const aiRoutes = Router();
 
 // Hydration plan
+// @ts-ignore
 aiRoutes.post("/hydration-plan", hydrationPlan);
 
 // Analyze hydration

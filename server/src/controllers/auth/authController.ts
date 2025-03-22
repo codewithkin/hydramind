@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import User from "../../model/user";
+import User from "../../../model/user";
 
-const register = async (req: Request, res: Response) => {
+export async function register (req: Request, res: Response) {
   try {
     const { name, email, password } = req.body;
 
@@ -16,7 +16,9 @@ const register = async (req: Request, res: Response) => {
     }
 
     const user = await User.create({ name, email, password });
+
     await user.save();
+
     res
       .status(201)
       .json({ message: "User registered succesfully", user: user });
@@ -25,5 +27,3 @@ const register = async (req: Request, res: Response) => {
     res.status(500).json({ message: "User regitstraion Failed!" });
   }
 };
-
-export default register;

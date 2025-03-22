@@ -1,7 +1,9 @@
-import express from "express";
-import register from "../../controllers/auth/authController";
+import {Router} from "express";
+import { register } from "../../controllers/auth/authController";
 
-const router = express.Router();
+const router = Router();
 
+// @ts-ignore
 router.post("/register", register);
+
 export default router;
