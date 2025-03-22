@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import User from "../../../model/user";
+import User from "../../../model/user.js";
 
-export async function register (req: Request, res: Response) {
+export async function register(req: Request, res: Response) {
   try {
     const { name, email, password } = req.body;
 
@@ -26,4 +26,4 @@ export async function register (req: Request, res: Response) {
     console.log("Error :", error);
     res.status(500).json({ message: "User regitstraion Failed!" });
   }
-};
+}

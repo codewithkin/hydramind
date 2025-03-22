@@ -5,10 +5,18 @@ import dataRoutes from "./routes/data/index.js";
 import hydrationRoutes from "./routes/hydration/route.js";
 import aiRoutes from "./routes/ai/index.js";
 import notificationRoutes from "./routes/notifications/index.js";
-import authRoute from "./routes/auth/authRoute";
+import authRoute from "./routes/auth/authRoute.js";
 import { Server } from "socket.io";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+
+process.on("uncaughtException", (err) => {
+  console.error("Uncaught Exception:", err);
+});
+
+process.on("unhandledRejection", (reason, promise) => {
+  console.error("Unhandled Rejection at:", promise, "reason:", reason);
+});
 
 dotenv.config();
 

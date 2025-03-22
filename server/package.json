@@ -16,10 +16,6 @@
   "dependencies": {
     "@types/cors": "^2.8.17",
     "@types/morgan": "^1.9.9",
-<<<<<<< HEAD
-    "bcrypt": "^5.1.1",
-=======
->>>>>>> 2b7b79e6f85fd7ee940f25ef922dfa58fcd2756a
     "axios": "^1.8.4",
     "bcrypt": "^5.1.1",
     "better-auth": "^1.2.4",
