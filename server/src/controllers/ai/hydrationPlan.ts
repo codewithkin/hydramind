@@ -40,11 +40,6 @@ export async function hydrationPlan(req: Request, res: Response) {
     // Get the temperature and humidity from the weather Response
     const { temp, humidity } = weatherResponse.data.main;
 
-    console.log({
-      "Temperature: ": temp,
-      "Humidity: ": humidity,
-    });
-
     // Pass these values to the AI
     const hydrationPlan = await getHydrationPlan({
       temp,
