@@ -7,12 +7,13 @@ import aiRoutes from "./routes/ai/index.js";
 import notificationRoutes from "./routes/notifications/index.js";
 import { Server } from "socket.io";
 import dotenv from "dotenv";
+import mongoose from "mongoose";
 dotenv.config();
 const io = new Server({
-  cors: {
-    origin: "*", // Allow frontend connections
-    methods: ["GET", "POST"],
-  },
+    cors: {
+        origin: "*", // Allow frontend connections
+        methods: ["GET", "POST"],
+    },
 });
 dotenv.config();
 const app = express();
@@ -30,35 +31,47 @@ app.use("/api/ai", aiRoutes);
 app.use("/api/notifications", notificationRoutes);
 // Catch-all route
 app.use("*", (_, res) => {
-  // Return a random response
-  res.status(404).json({
-    message: "The route you were looking for could not be found",
-  });
+    // Return a random response
+    res.status(404).json({
+        message: "The route you were looking for could not be found",
+    });
 });
 // Store user hydration progress in-memory (Replace with DB in production)
 let hydrationData = {};
 io.on("connection", (socket) => {
-  console.log(`User connected: ${socket.id}`);
-  // Listen for hydration log event
-  socket.on("hydrate", (data) => {
-    const { userId, amount } = data;
-    // Update hydration progress
-    if (!hydrationData[userId]) hydrationData[userId] = 0;
-    hydrationData[userId] += amount;
-    console.log(`User ${userId} logged ${amount}ml`);
-    // Emit updated hydration progress
-    io.emit("updateProgress", { userId, newProgress: hydrationData[userId] });
-  });
-  // Send reminders to specific users
-  socket.on("sendReminder", (data) => {
-    const { userId, message } = data;
-    io.to(userId).emit("reminder", { message });
-    console.log(`Reminder sent to ${userId}: ${message}`);
-  });
-  socket.on("disconnect", () => {
-    console.log(`User disconnected: ${socket.id}`);
-  });
+    console.log(`User connected: ${socket.id}`);
+    // Listen for hydration log event
+    socket.on("hydrate", (data) => {
+        const { userId, amount } = data;
+        // Update hydration progress
+        if (!hydrationData[userId])
+            hydrationData[userId] = 0;
+        hydrationData[userId] += amount;
+        console.log(`User ${userId} logged ${amount}ml`);
+        // Emit updated hydration progress
+        io.emit("updateProgress", { userId, newProgress: hydrationData[userId] });
+    });
+    // Send reminders to specific users
+    socket.on("sendReminder", (data) => {
+        const { userId, message } = data;
+        io.to(userId).emit("reminder", { message });
+        console.log(`Reminder sent to ${userId}: ${message}`);
+    });
+    socket.on("disconnect", () => {
+        console.log(`User disconnected: ${socket.id}`);
+    });
 });
+//MongoDB connection
+(async function connectDB() {
+    try {
+        await mongoose.connect("mongodb+srv://stephenadebanjo86:re9fFyuhM3I1W0Hd@cluster0.31n4t.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0");
+        console.log("MongoDB Connected succesfully");
+    }
+    catch (error) {
+        console.log("MongoDB Connection Error:", error);
+        process.exit(1);
+    }
+})();
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });

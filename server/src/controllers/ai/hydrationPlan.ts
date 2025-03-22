@@ -3,7 +3,7 @@ import axios from "axios";
 
 import { config } from "dotenv";
 import { getHydrationPlan } from "../../lib/functions/ai/reusable/getHydrationPlan.js";
-import User from "../../../model/user.js";
+import User from "../../model/user.js";
 
 // Allow parsing of env variables (useful for test cases where code doesn't run the config() call in the root server.ts file because we run this function directly)
 config();
