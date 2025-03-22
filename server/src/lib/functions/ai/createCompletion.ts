@@ -17,7 +17,7 @@ export async function createCompletion({
         messages: [
           {
             role: "system",
-            content: systemPrompt
+            content: systemPrompt,
           },
           {
             role: "user",

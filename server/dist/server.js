@@ -9,10 +9,10 @@ import { Server } from "socket.io";
 import dotenv from "dotenv";
 dotenv.config();
 const io = new Server({
-  cors: {
-    origin: "*", // Allow frontend connections
-    methods: ["GET", "POST"],
-  },
+    cors: {
+        origin: "*", // Allow frontend connections
+        methods: ["GET", "POST"],
+    },
 });
 dotenv.config();
 const app = express();
@@ -27,38 +27,39 @@ app.use("/api/hydration", hydrationRoutes);
 // AI routes
 app.use("/api/ai", aiRoutes);
 // Notifications and reminders
-app.use("/api/ai", notificationRoutes);
+app.use("/api/notifications", notificationRoutes);
 // Catch-all route
 app.use("*", (_, res) => {
-  // Return a random response
-  res.status(404).json({
-    message: "The route you were looking for could not be found",
-  });
+    // Return a random response
+    res.status(404).json({
+        message: "The route you were looking for could not be found",
+    });
 });
 // Store user hydration progress in-memory (Replace with DB in production)
 let hydrationData = {};
 io.on("connection", (socket) => {
-  console.log(`User connected: ${socket.id}`);
-  // Listen for hydration log event
-  socket.on("hydrate", (data) => {
-    const { userId, amount } = data;
-    // Update hydration progress
-    if (!hydrationData[userId]) hydrationData[userId] = 0;
-    hydrationData[userId] += amount;
-    console.log(`User ${userId} logged ${amount}ml`);
-    // Emit updated hydration progress
-    io.emit("updateProgress", { userId, newProgress: hydrationData[userId] });
-  });
-  // Send reminders to specific users
-  socket.on("sendReminder", (data) => {
-    const { userId, message } = data;
-    io.to(userId).emit("reminder", { message });
-    console.log(`Reminder sent to ${userId}: ${message}`);
-  });
-  socket.on("disconnect", () => {
-    console.log(`User disconnected: ${socket.id}`);
-  });
+    console.log(`User connected: ${socket.id}`);
+    // Listen for hydration log event
+    socket.on("hydrate", (data) => {
+        const { userId, amount } = data;
+        // Update hydration progress
+        if (!hydrationData[userId])
+            hydrationData[userId] = 0;
+        hydrationData[userId] += amount;
+        console.log(`User ${userId} logged ${amount}ml`);
+        // Emit updated hydration progress
+        io.emit("updateProgress", { userId, newProgress: hydrationData[userId] });
+    });
+    // Send reminders to specific users
+    socket.on("sendReminder", (data) => {
+        const { userId, message } = data;
+        io.to(userId).emit("reminder", { message });
+        console.log(`Reminder sent to ${userId}: ${message}`);
+    });
+    socket.on("disconnect", () => {
+        console.log(`User disconnected: ${socket.id}`);
+    });
 });
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });
