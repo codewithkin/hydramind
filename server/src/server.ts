@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import morgan from "morgan";
 import dataRoutes from './routes/data/index.js';
+import hydrationRoutes from './routes/hydration/route.js';
 
 dotenv.config();
 
@@ -15,6 +16,12 @@ const PORT = process.env.PORT || 8080;
 
 // Data routes
 app.use("/api/data", dataRoutes);
+
+// Hydration routes
+app.use("/api/hydration", hydrationRoutes)
+
+// AI routes
+app.use("/api/ai", aiRoutes)
 
 // Catch-all route
 app.use("*", (_, res) => {

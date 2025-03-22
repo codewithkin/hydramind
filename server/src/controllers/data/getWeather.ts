@@ -7,7 +7,7 @@ export async function getWeather (req: Request, res: Response) {
             message: "Weather data here"
         })
     } catch (e) {
-        console.log("An error occured whike fetching weather data: ", e);
+        console.log("An error occured while fetching weather data: ", e);
 
         res.status(500).send("An error occured while fetching weather data: ");
     }
