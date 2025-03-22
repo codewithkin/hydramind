@@ -1,11 +1,21 @@
 import express from 'express';
-import dotenv from 'dotenv';
 import cors from 'cors';
 import morgan from "morgan";
 import dataRoutes from './routes/data/index.js';
 import hydrationRoutes from './routes/hydration/route.js';
 import aiRoutes from './routes/ai/hydrationPlan.js';
 import notificationRoutes from './routes/notifications/index.js';
+import { Server } from "socket.io";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const io = new Server({
+  cors: {
+    origin: "*", // Allow frontend connections
+    methods: ["GET", "POST"]
+  }
+});
 
 dotenv.config();
 
@@ -35,20 +45,38 @@ app.use("*", (_, res) => {
     message: "The route you were looking for could not be found",
   })
 })
+// Store user hydration progress in-memory (Replace with DB in production)
+let hydrationData: Record<string, number> = {};
 
 io.on("connection", (socket) => {
-  console.log("User connected:", socket.id);
+  console.log(`User connected: ${socket.id}`);
 
+  // Listen for hydration log event
   socket.on("hydrate", (data) => {
-    console.log("User logged water:", data);
-    io.emit("updateProgress", { userId: data.userId, newProgress: data.amount });
+    const { userId, amount } = data;
+
+    // Update hydration progress
+    if (!hydrationData[userId]) hydrationData[userId] = 0;
+    hydrationData[userId] += amount;
+
+    console.log(`User ${userId} logged ${amount}ml`);
+
+    // Emit updated hydration progress
+    io.emit("updateProgress", { userId, newProgress: hydrationData[userId] });
+  });
+
+  // Send reminders to specific users
+  socket.on("sendReminder", (data) => {
+    const { userId, message } = data;
+    io.to(userId).emit("reminder", { message });
+
+    console.log(`Reminder sent to ${userId}: ${message}`);
   });
 
   socket.on("disconnect", () => {
-    console.log("User disconnected");
+    console.log(`User disconnected: ${socket.id}`);
   });
 });
-
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
