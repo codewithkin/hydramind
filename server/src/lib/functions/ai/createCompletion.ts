@@ -20,5 +20,3 @@ export async function createCompletion({ message }: { message: string }) {
     console.log("An error occured while creating completion: ", e);
   }
 }
-
-createCompletion({message: "Hi there"})
