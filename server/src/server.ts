@@ -10,14 +10,6 @@ import { Server } from "socket.io";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 
-process.on("uncaughtException", (err) => {
-  console.error("Uncaught Exception:", err);
-});
-
-process.on("unhandledRejection", (reason, promise) => {
-  console.error("Unhandled Rejection at:", promise, "reason:", reason);
-});
-
 dotenv.config();
 
 const io = new Server({
@@ -26,8 +18,6 @@ const io = new Server({
     methods: ["GET", "POST"],
   },
 });
-
-dotenv.config();
 
 const app = express();
 app.use(cors());
