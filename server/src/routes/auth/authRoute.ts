@@ -1,9 +1,9 @@
 import { Router } from "express";
-import {
-  googleSignIn,
-  logIn,
-  register,
-} from "../../controllers/auth/authController.js";
+// import {
+//   googleSignIn,
+//   logIn,
+//   register,
+// } from "../../controllers/auth/authController.js";
 // import { createExpressHandler } from "better-auth/express";
 import { auth } from "./betterAuth.js";
 
