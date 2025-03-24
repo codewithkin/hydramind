@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import User from "../../model/user.js";
 import jwt from "jsonwebtoken";
+import { authClient } from "../../lib/authClient.js";
 
 //controller function for register
 export async function register(req: Request, res: Response) {
@@ -73,3 +74,19 @@ export async function logIn(req: Request, res: Response) {
     res.status(500).json({ message: "User Log-In Failed!" });
   }
 }
+
+export const googleSignIn = async (req: Request, res: Response) => {
+  const result = await authClient.signIn.social({
+    provider: "google",
+    callbackURL: "/dashboard",
+    errorCallbackURL: "/error",
+    newUserCallbackURL: "/welcome",
+    disableRedirect: false, // true only if you want to handle the redirect manually
+  });
+
+  // return better auth response as an express respsonse
+  //@ts-ignore
+  const body = await result.text();
+  //@ts-ignore
+  res.status(result.status).set(Object.fromEntries(result.headers)).send(body);
+};
