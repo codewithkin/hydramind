@@ -5,7 +5,7 @@ import { Router } from "express";
 //   register,
 // } from "../../controllers/auth/authController.js";
 // import { createExpressHandler } from "better-auth/express";
-import { auth } from "./betterAuth.js";
+// import { auth } from "./auth.js";
 
 // const expressHandler = createExpressHandler(auth);
 
