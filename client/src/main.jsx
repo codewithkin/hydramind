@@ -9,8 +9,8 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
-import "./styles.css";
-
+import "./index.css";
+// import "./styles.css";
 import App from "./App.jsx";
 
 const rootRoute = createRootRoute({
