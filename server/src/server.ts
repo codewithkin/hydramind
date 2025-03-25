@@ -10,7 +10,7 @@ import { Server } from "socket.io";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import { toNodeHandler } from "better-auth/node";
-import { auth } from "../auth";
+import { auth } from "../auth.js";
 
 dotenv.config();
 

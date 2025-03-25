@@ -1,7 +1,12 @@
 import React from "react";
+import GoogleSignIn from "./components/googleSignIn";
 
 const App = () => {
-  return <div>App</div>;
+  return (
+    <div>
+      <GoogleSignIn />
+    </div>
+  );
 };
 
 export default App;
