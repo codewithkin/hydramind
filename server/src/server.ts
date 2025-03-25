@@ -9,6 +9,8 @@ import authRoute from "./routes/auth/authRoute.js";
 import { Server } from "socket.io";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import { toNodeHandler } from "better-auth/node";
+import { auth } from "../auth";
 
 dotenv.config();
 
@@ -40,6 +42,9 @@ app.use("/api/notifications", notificationRoutes);
 
 // Auth route
 app.use("/api/auth", authRoute);
+
+// better auth
+app.all("/api/auth/*", toNodeHandler(auth));
 
 // Catch-all route
 app.use("*", (_, res) => {
