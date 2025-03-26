@@ -5,9 +5,12 @@ import dataRoutes from "./routes/data/index.js";
 import hydrationRoutes from "./routes/hydration/route.js";
 import aiRoutes from "./routes/ai/index.js";
 import notificationRoutes from "./routes/notifications/index.js";
+import authRoute from "./routes/auth/authRoute.js";
 import { Server } from "socket.io";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import { toNodeHandler } from "better-auth/node";
+import { auth } from "../auth.js";
 
 dotenv.config();
 
@@ -17,8 +20,6 @@ const io = new Server({
     methods: ["GET", "POST"],
   },
 });
-
-dotenv.config();
 
 const app = express();
 app.use(cors());
@@ -39,6 +40,12 @@ app.use("/api/ai", aiRoutes);
 // Notifications and reminders
 app.use("/api/notifications", notificationRoutes);
 
+// Auth route
+app.use("/api/auth", authRoute);
+
+// better auth
+app.all("/api/auth/*", toNodeHandler(auth));
+
 // Catch-all route
 app.use("*", (_, res) => {
   // Return a random response
@@ -46,6 +53,7 @@ app.use("*", (_, res) => {
     message: "The route you were looking for could not be found",
   });
 });
+
 // Store user hydration progress in-memory (Replace with DB in production)
 let hydrationData: Record<string, number> = {};
 
@@ -82,9 +90,7 @@ io.on("connection", (socket) => {
 //MongoDB connection
 (async function connectDB() {
   try {
-    await mongoose.connect(
-      "mongodb+srv://stephenadebanjo86:re9fFyuhM3I1W0Hd@cluster0.31n4t.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-    );
+    await mongoose.connect(process.env.DB_URL!);
     console.log("MongoDB Connected succesfully");
   } catch (error) {
     console.log("MongoDB Connection Error:", error);

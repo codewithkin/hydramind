@@ -18,19 +18,18 @@ const userSchema = new mongoose.Schema(
     weight: {
       type: Number,
       required: false,
-      default: 0
+      default: 0,
     },
-    age: 
-      {
-        type: Number,
-        required: false,
-        default: 0
-      },
-      activityLevel: {
-        type: String,
-        required: false,
-        default: ""
-      }
+    age: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+    activityLevel: {
+      type: String,
+      required: false,
+      default: "",
+    },
   },
   {
     timestamps: true,
