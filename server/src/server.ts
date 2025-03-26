@@ -8,22 +8,37 @@ import notificationRoutes from "./routes/notifications/index.js";
 import authRoute from "./routes/auth/authRoute.js";
 import { Server } from "socket.io";
 import dotenv from "dotenv";
+dotenv.config();
 import mongoose from "mongoose";
 import { toNodeHandler } from "better-auth/node";
 import { auth } from "../auth.js";
 
-dotenv.config();
+const app = express();
+
+// apply cors
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
+
+// better auth
+app.all("/api/auth/*", toNodeHandler(auth));
+
+// json parsing
+app.use(express.json());
 
 const io = new Server({
   cors: {
     origin: "*", // Allow frontend connections
     methods: ["GET", "POST"],
+    credentials: true,
   },
 });
 
-const app = express();
 app.use(cors());
-app.use(express.json());
+
 app.use(morgan("combined"));
 
 const PORT = process.env.PORT || 8080;
@@ -42,9 +57,6 @@ app.use("/api/notifications", notificationRoutes);
 
 // Auth route
 app.use("/api/auth", authRoute);
-
-// better auth
-app.all("/api/auth/*", toNodeHandler(auth));
 
 // Catch-all route
 app.use("*", (_, res) => {

@@ -13,7 +13,8 @@
     "@tanstack/react-router-devtools": "^1.114.3",
     "better-auth": "^1.2.4",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.4.0"
   },
   "devDependencies": {
     "@testing-library/dom": "^10.4.0",

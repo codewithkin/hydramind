@@ -1,10 +1,3 @@
-import { betterAuth } from "better-auth/*";
-import Database from "better-sqlite3";
-
-export const auth = betterAuth({
-  database: new Database("./better-auth.db"),
-});
-
 // import { Request, Response } from "express";
 // import User from "../../model/user.js";
 // import jwt from "jsonwebtoken";
