@@ -5,24 +5,40 @@ import dataRoutes from "./routes/data/index.js";
 import hydrationRoutes from "./routes/hydration/route.js";
 import aiRoutes from "./routes/ai/index.js";
 import notificationRoutes from "./routes/notifications/index.js";
+import authRoute from "./routes/auth/authRoute.js";
 import { Server } from "socket.io";
 import dotenv from "dotenv";
-import mongoose from "mongoose";
-
 dotenv.config();
+import mongoose from "mongoose";
+import { toNodeHandler } from "better-auth/node";
+import { auth } from "../auth.js";
+
+const app = express();
+
+// apply cors
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
+
+// better auth
+app.all("/api/auth/*", toNodeHandler(auth));
+
+// json parsing
+app.use(express.json());
 
 const io = new Server({
   cors: {
     origin: "*", // Allow frontend connections
     methods: ["GET", "POST"],
+    credentials: true,
   },
 });
 
-dotenv.config();
-
-const app = express();
 app.use(cors());
-app.use(express.json());
+
 app.use(morgan("combined"));
 
 const PORT = process.env.PORT || 8080;
@@ -39,6 +55,9 @@ app.use("/api/ai", aiRoutes);
 // Notifications and reminders
 app.use("/api/notifications", notificationRoutes);
 
+// Auth route
+app.use("/api/auth", authRoute);
+
 // Catch-all route
 app.use("*", (_, res) => {
   // Return a random response
@@ -46,6 +65,7 @@ app.use("*", (_, res) => {
     message: "The route you were looking for could not be found",
   });
 });
+
 // Store user hydration progress in-memory (Replace with DB in production)
 let hydrationData: Record<string, number> = {};
 
@@ -82,9 +102,7 @@ io.on("connection", (socket) => {
 //MongoDB connection
 (async function connectDB() {
   try {
-    await mongoose.connect(
-      "mongodb+srv://stephenadebanjo86:re9fFyuhM3I1W0Hd@cluster0.31n4t.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-    );
+    await mongoose.connect(process.env.DB_URL!);
     console.log("MongoDB Connected succesfully");
   } catch (error) {
     console.log("MongoDB Connection Error:", error);
